@@ -11,6 +11,7 @@ from htmlTemplates import bot_template, user_template, css
 from langchain_community.vectorstores import qdrant
 import qdrant_client
 import os
+from langchain_groq import ChatGroq
 # from langchain_community.llms import huggingface_hub
 # from langchain.llms import huggingface_hub
 
@@ -30,7 +31,8 @@ def get_vectorstores():
     return vector_store
 
 def get_conversation_chain(vectorstore):
-    my_llm = ChatOpenAI(model = "gpt-4")
+    # my_llm = ChatOpenAI(model = "gpt-4")
+    my_llm = ChatGroq(temperature=0, model_name="mixtral-8x7b-32768")
     # my_llm = huggingface_hub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":512})
     memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
